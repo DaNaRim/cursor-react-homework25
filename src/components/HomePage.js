@@ -1,4 +1,5 @@
 import React, {Component} from "react"
+import styled from "styled-components"
 import Header from "./Header"
 
 class HomePage extends Component {
@@ -6,13 +7,23 @@ class HomePage extends Component {
     return (
       <div>
         <Header/>
-        <div className="content" style={{display: "flex", alignItems: "center", flexDirection: "column"}}>
-          <img src={require("../assets/img/homeImg.jpg")} alt="Зображення" style={{maxWidth: "50%"}}/>
+        <HomePageWrapper>
+          <img src={require("../assets/img/homeImg.jpg")} alt="Зображення"/>
           <h1>Текст</h1>
-        </div>
+        </HomePageWrapper>
       </div>
     )
   }
 }
 
 export default HomePage
+
+const HomePageWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  img {
+    max-width: 50%;
+  }
+`

@@ -16,6 +16,6 @@ class Header extends Component {
 export default Header
 
 const HeaderWrapper = styled.div`
-  background-color: blue;
   padding: 1rem 0;
+  background-color: blue;
 `

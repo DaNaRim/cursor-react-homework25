@@ -173,8 +173,8 @@ const ContactWrapper = styled.div`
       width: 6rem;
       height: 6rem;
       margin-bottom: 1rem;
-      border-radius: 100%;
       border: 0.3rem solid #fff;
+      border-radius: 100%;
       box-shadow: 0 0.5rem 1rem ${rgba("black", 0.3)}
     }
 
@@ -224,24 +224,24 @@ const ContactWrapper = styled.div`
 
     button {
       font-weight: bold;
-      background-color: #ffd01a;
+      box-sizing: border-box;
       width: 100%;
       margin: 1rem 0;
-      border: none;
       padding: 0.8rem;
-      outline: none;
-      box-sizing: border-box;
-      border-radius: 1.5rem / 50%;
       transition: background-color 100ms ease-in-out, transform 200ms cubic-bezier(0.18, 0.89, 0.32, 1.28);
+      border: none;
+      border-radius: 1.5rem / 50%;
+      outline: none;
+      background-color: #ffd01a;
 
       &:hover {
-        background-color: #efb10a;
         transform: scale(1.1);
+        background-color: #efb10a;
       }
 
       &:active {
-        background-color: #e8a200;
         transform: scale(1);
+        background-color: #e8a200;
       }
     }
 
@@ -254,19 +254,18 @@ const ContactWrapper = styled.div`
 const ContactsMiniWrapper = styled.div`
   position: absolute;
 
-
   .contact_mini {
-    display: block;
     font-family: Montserrat, sans-serif;
+    display: block;
     width: 10rem;
     max-width: 20rem;
     margin: 1rem;
     padding: 1rem;
+    text-decoration: none;
     color: #404040;
     border-radius: 2rem;
     background-color: white;
     box-shadow: 0 1rem 1.5rem ${rgba("black", 0.5)};
-    text-decoration: none;
 
     &:active {
       color: inherit;

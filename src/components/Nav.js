@@ -22,19 +22,19 @@ export default Nav
 
 const NavWrapper = styled.div`
   ul {
+    display: flex;
+    justify-content: center;
     margin: 0;
     padding: 0;
     list-style-type: none;
-    display: flex;
-    justify-content: center;
 
     li {
       margin: 0 0.5rem;
 
       a {
-        color: #fff;
-        text-decoration: none;
         font-size: 1.5rem;
+        text-decoration: none;
+        color: #fff;
 
         &.active {
           text-decoration: underline;
