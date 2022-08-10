@@ -34,39 +34,25 @@ class ContactPage extends Component {
 
   updateState() {
     const contact0 = this.getCurrentContact()
-    this.setState({
-      contact: contact0
-    })
+    this.setState({contact: contact0})
 
-    this.setState({
-      isMessageSent: !!contact0.isMessageSent
-    })
+    this.setState({isMessageSent: !!contact0.isMessageSent})
 
     if (contact0.description) {
-      this.setState({
-        description: contact0.description
-      })
-    } else if (!contact0.description) {
+      this.setState({description: contact0.description})
+    } else {
       this.getDescription().then(result => {
         contact0.description = result
-
-        this.setState({
-          description: result
-        })
+        this.setState({description: result})
       })
     }
 
     if (contact0.profileImage) {
-      this.setState({
-        profileImage: contact0.profileImage
-      })
-    } else if (!contact0.profileImage) {
+      this.setState({profileImage: contact0.profileImage})
+    } else {
       this.getProfileImage().then(result => {
         contact0.profileImage = result
-
-        this.setState({
-          profileImage: result
-        })
+        this.setState({profileImage: result})
       })
     }
   }
@@ -91,48 +77,41 @@ class ContactPage extends Component {
           <h3>Message sent... I promise <br/> Don't write to me again.</h3>
         </div>
       )
-    } else {
-      return (
-        <div className="message-form">
-          <textarea placeholder="Type your message here..."/>
-          <button className="btn" onClick={this.sendMessage.bind(this)}>Send</button>
-        </div>
-      )
     }
+    return (
+      <div className="message-form">
+        <textarea placeholder="Type your message here..."/>
+        <button className="btn" onClick={this.sendMessage.bind(this)}>Send</button>
+      </div>
+    )
   }
 
   sendMessage() {
-    const contact0 = this.getCurrentContact()
-    contact0.isMessageSent = true
-
-    this.setState({
-      isMessageSent: true
-    })
+    this.getCurrentContact().isMessageSent = true
+    this.setState({isMessageSent: true})
   }
 
   render() {
-    const {username, firstName, lastName, phone, gender} = this.state.contact
+    const {username, firstName, lastName, phone, gender, profileImage, description} = this.state.contact
 
     return (
       <div>
         <Header/>
         <ContactsMiniWrapper>
-          {contacts.map(contact => {
-            return (
-              <Link to={`/contacts/${contact.username}`}
-                    className={`contact_mini` + (contact.username === username ? " current_contact" : "")}>
-                {contact.firstName} {contact.lastName}
-              </Link>
-            )
-          })}
+          {contacts.map(contact => (
+            <Link to={`/contacts/${contact.username}`}
+                  className={"contact_mini" + (contact.username === username ? " current_contact" : "")}>
+              {contact.firstName} {contact.lastName}
+            </Link>
+          ))}
         </ContactsMiniWrapper>
         <ContactWrapper>
           <header>
-            <img src={`${this.state.profileImage}`} alt="profile"/>
+            <img src={`${profileImage}`} alt="profile"/>
             <h3 className="name">{firstName} {lastName}</h3>
             {getIconByGender(gender)}
           </header>
-          <div className="description">{this.state.description}</div>
+          <div className="description">{description}</div>
           <article className="contacts">
             <p className="phone">
               phone: <a href={`tel:${phone}`}>{formatPhoneNumber(phone)}</a>
@@ -175,7 +154,7 @@ const ContactWrapper = styled.div`
       margin-bottom: 1rem;
       border: 0.3rem solid #fff;
       border-radius: 100%;
-      box-shadow: 0 0.5rem 1rem ${rgba("black", 0.3)}
+      box-shadow: 0 0.5rem 1rem ${rgba("black", 0.3)};
     }
 
     .name {
