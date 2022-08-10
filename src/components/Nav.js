@@ -5,7 +5,7 @@ import styled from "styled-components"
 
 class Nav extends Component {
   render() {
-    const path = window.location.pathname
+    const path = window.location.pathname.replace(process.env.PUBLIC_URL, "")
 
     return (
       <NavWrapper>

@@ -120,8 +120,7 @@ class ContactPage extends Component {
           {contacts.map(contact => {
             return (
               <Link to={`/contacts/${contact.username}`}
-                    className={`contact_mini` + (contact.username === username ? " current_contact" : "")}
-                    key={Math.random()}>
+                    className={`contact_mini` + (contact.username === username ? " current_contact" : "")}>
                 {contact.firstName} {contact.lastName}
               </Link>
             )

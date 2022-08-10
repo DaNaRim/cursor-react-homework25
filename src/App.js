@@ -11,7 +11,7 @@ function App() {
   return (
     <main>
       <GlobalStyle/>
-      <BrowserRouter>
+      <BrowserRouter basename={process.env.PUBLIC_URL}>
         <Route path="/" exact component={HomePage}/>
         <Route path="/posts" exact component={PostsPage}/>
         <Route path="/images" exact component={ImagePage}/>
