@@ -5,15 +5,13 @@ import styled from "styled-components"
 
 class Nav extends Component {
   render() {
-    const path = window.location.pathname.replace(process.env.PUBLIC_URL, "")
-
     return (
       <NavWrapper>
         <ul>
-          <li className={path === "/" ? "selected" : null}><NavLink to="/">Home</NavLink></li>
-          <li className={path === "/posts" ? "selected" : null}><NavLink to="/posts">Posts</NavLink></li>
-          <li className={path === "/images" ? "selected" : null}><NavLink to="/images">Images</NavLink></li>
-          <li className={path === "/contacts" ? "selected" : null}><NavLink to="/contacts">Contacts</NavLink></li>
+          <li><NavLink to="/" exact={true}>Home</NavLink></li>
+          <li><NavLink to="/posts">Posts</NavLink></li>
+          <li><NavLink to="/images">Images</NavLink></li>
+          <li><NavLink to="/contacts">Contacts</NavLink></li>
         </ul>
       </NavWrapper>
     )
@@ -33,14 +31,14 @@ const NavWrapper = styled.div`
     li {
       margin: 0 0.5rem;
 
-      &.selected > a {
-        text-decoration: underline;
-      }
-
       a {
         color: #fff;
         text-decoration: none;
         font-size: 1.5rem;
+
+        &.active {
+          text-decoration: underline;
+        }
       }
     }
   }
