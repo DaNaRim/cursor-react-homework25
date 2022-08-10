@@ -2,6 +2,7 @@ import {rgba} from "polished"
 import React, {Component} from "react"
 import {Link} from "react-router-dom"
 import styled from "styled-components"
+import LOADING_SPINNER from "../assets/gif/Spinner-1s-200px.gif"
 import {contacts} from "../data"
 import {formatPhoneNumber, getIconByGender} from "./Contact"
 import Header from "./Header"
@@ -11,10 +12,7 @@ class ContactPage extends Component {
     super(props, context)
 
     this.state = {
-      contact: this.getCurrentContact(),
-      description: "",
-      profileImage: "",
-      isMessageSent: false
+      contact: this.getCurrentContact()
     }
   }
 
@@ -29,32 +27,21 @@ class ContactPage extends Component {
   }
 
   getCurrentContact() {
-    return contacts.filter(contact => contact.username === this.props.match.params.username)[0]
+    const contact0 = contacts.filter(contact => contact.username === this.props.match.params.username)[0]
+    if (!contact0.description) {
+      this.getDescription().then(result => contact0.description = result)
+    }
+    if (!contact0.profileImage) {
+      this.getProfileImage().then(result => contact0.profileImage = result)
+    }
+    return contact0
   }
 
   updateState() {
-    const contact0 = this.getCurrentContact()
-    this.setState({contact: contact0})
-
-    this.setState({isMessageSent: !!contact0.isMessageSent})
-
-    if (contact0.description) {
-      this.setState({description: contact0.description})
-    } else {
-      this.getDescription().then(result => {
-        contact0.description = result
-        this.setState({description: result})
-      })
+    if (this.getCurrentContact() !== this.state.contact) {
+      this.setState({contact: this.getCurrentContact()})
     }
-
-    if (contact0.profileImage) {
-      this.setState({profileImage: contact0.profileImage})
-    } else {
-      this.getProfileImage().then(result => {
-        contact0.profileImage = result
-        this.setState({profileImage: result})
-      })
-    }
+    setTimeout(() => this.setState(this.state), 500)
   }
 
   getDescription() {
@@ -70,25 +57,10 @@ class ContactPage extends Component {
       .then(res => res.url)
   }
 
-  getMessageForm() {
-    if (this.state.isMessageSent) {
-      return (
-        <div className="message-form">
-          <h3>Message sent... I promise <br/> Don't write to me again.</h3>
-        </div>
-      )
-    }
-    return (
-      <div className="message-form">
-        <textarea placeholder="Type your message here..."/>
-        <button className="btn" onClick={this.sendMessage.bind(this)}>Send</button>
-      </div>
-    )
-  }
-
   sendMessage() {
-    this.getCurrentContact().isMessageSent = true
-    this.setState({isMessageSent: true})
+    const contact0 = this.getCurrentContact()
+    contact0.isMessageSent = true
+    this.setState({contact: contact0})
   }
 
   render() {
@@ -100,14 +72,18 @@ class ContactPage extends Component {
         <ContactsMiniWrapper>
           {contacts.map(contact => (
             <Link to={`/contacts/${contact.username}`}
-                  className={"contact_mini" + (contact.username === username ? " current_contact" : "")}>
+                  className={"contact_mini" + (contact.username === username ? " current_contact" : "")}
+                  key={Math.random()}>
               {contact.firstName} {contact.lastName}
             </Link>
           ))}
         </ContactsMiniWrapper>
         <ContactWrapper>
           <header>
-            <img src={`${profileImage}`} alt="profile"/>
+            {profileImage
+              ? (<img src={`${profileImage}`} alt="profile"/>)
+              : (<img src={LOADING_SPINNER} alt="loading..."/>)
+            }
             <h3 className="name">{firstName} {lastName}</h3>
             {getIconByGender(gender)}
           </header>
@@ -117,7 +93,15 @@ class ContactPage extends Component {
               phone: <a href={`tel:${phone}`}>{formatPhoneNumber(phone)}</a>
             </p>
           </article>
-          {this.getMessageForm()}
+          <div className="message-form">
+            {this.state.contact.isMessageSent
+              ? (<h3>Message sent... I promise <br/> Don't write to me again.</h3>)
+              : [
+                <textarea placeholder="Type your message here..."/>,
+                <button className="btn" onClick={this.sendMessage.bind(this)}>Send</button>
+              ]
+            }
+          </div>
         </ContactWrapper>
       </div>
     )
