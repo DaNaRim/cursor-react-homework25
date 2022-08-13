@@ -41,7 +41,7 @@ class ContactPage extends Component {
     if (this.getCurrentContact() !== this.state.contact) {
       this.setState({contact: this.getCurrentContact()})
     }
-    setTimeout(() => this.setState(this.state), 500)
+    setTimeout(() => this.setState(this.state), 1000)
   }
 
   getDescription() {
